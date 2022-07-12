@@ -1,0 +1,29 @@
+body {
+    background-color: lightblue;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+  } 
+
+  .form {
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+}
+.form label {
+    display: inline-block;
+    font-size: 24px;
+}
+.ResizedText {
+    height:max-content;
+    width: auto;
+}
+button {
+    background-color: white;
+    font-family: CG;
+    border-color: black;
+    border-width: 1px;
+    text-transform: capitalize;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 40%
+}

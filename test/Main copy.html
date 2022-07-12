@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="stylesheet.css">
+    <title>pass input</title>
+</head>
+<body>  
+    <h1>
+        <div class="form">
+            <form action="" method="get"> <!--method veranderen naar post maar crashed zonder output plek-->
+                <label for="pass">Password:</label>
+                <input type="password" class="ResizedText" name="pass" id="pass" required>
+            </form>
+        </div>
+    </h1>
+    <button id="create">SAVE TO FILE</button>
+    <a download="notes.txt" id="downloadlink" style="display: none"><button onclick="functionreset()">DOWNLOAD</button></a>
+    <script>
+        (function() {
+            var textFile = null,
+                makeTextFile = function(text) {
+                    var data = new Blob([text], {
+                        type: 'text/plain'
+                    });
+
+                    // If we are replacing a previously generated file we need to
+                    // manually revoke the object URL to avoid memory leaks.
+                    if (textFile !== null) {
+                        window.URL.revokeObjectURL(textFile);
+                    }
+
+                    textFile = window.URL.createObjectURL(data);
+
+                    return textFile;
+                };
+
+
+            var create = document.getElementById('create'),
+                textbox = document.getElementById('textbox');
+
+            create.addEventListener('click', function() {
+                var link = document.getElementById('downloadlink');
+                link.href = makeTextFile(textbox.value);
+                link.style.display = 'block';
+                document.getElementById('create').style.display = 'none';
+            }, false);
+        })();
+
+        function functionreset() {
+            var link = document.getElementById('downloadlink');
+            link.style.display = 'none';
+            document.getElementById('create').style.display = 'block';
+        }
+
+    </script>
+</body></html>
