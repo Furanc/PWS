@@ -9,7 +9,7 @@
     <h1>
         <div class="form">
             <form method="post">
-                <label for="pass">Password:</label>
+                <label for="pass">Wachtwoord:</label>
                 <input type="text" class="ResizedText" name="pass">
                 <input type="submit" name="submit">
             </form>
