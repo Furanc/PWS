@@ -16,3 +16,14 @@ body {
     height:max-content;
     width: auto;
 }
+button {
+    background-color: white;
+    font-family: CG;
+    border-color: black;
+    border-width: 1px;
+    text-transform: capitalize;
+    position: absolute;
+    left: 50%;
+    transform: translateX(-50%);
+    top: 40%
+}
