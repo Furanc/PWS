@@ -1,10 +1,3 @@
 # PWS
 
-
-pies
-drol
-zaad
-fsdfsdfsdfsdfsd
-apwkodoawdo
-peop
-droll
+basically een password grabber
