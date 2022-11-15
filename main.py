@@ -1,12 +1,14 @@
-import math
-import os
+#import math
+#import numpy as np
+#import os
+#import secrets
 
-import numpy
-np = numpy
+Alphanumeric = {'a':0, 'b':1, 'c':2, 'd':3, 'e':4, 'f':5, 'g':6, 'h':7, 'i':8, 'j':9, 'k':10, 'l':11, 'm':12, 'n':13, 
+'o':14, 'p':15, 'q':16, 'r':17, 's':18, 't':19, 'u':20, 'v':21, 'w':22,}
 
-np.matrix([[1,3,4],
-[1,2,3]])
+pw = str(input('password?'))
+list = list(pw)
+pwlen = int(len(list))
 
-p = math.cos(2)
-os.system('asdajhwd')
-print(p)
+for i in range pwlen:
+    
