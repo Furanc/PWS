@@ -8,15 +8,13 @@ alphanumeric = {'a':1, 'b':2, 'c':3, 'd':4, 'e':5, 'f':6, 'g':7, 'h':8, 'i':9, '
 inv_alphanumeric = {v-1: k for k, v in alphanumeric.items()}
 
 def vigenere():
+    pwlen = 1
+    characters = []
     cipherchars = []
-    pw = str(input('password? (Alphanumeric): '))
-    characters = list(pw)
-    pwlen = int(len(pw))
-
     alphabet = string.ascii_letters + string.digits
     keystring = ''.join(secrets.choice(alphabet) for i in range(pwlen))
     characterskey = list(keystring)
-
+    
     for i in range(pwlen):
         n1 = characters[i]
         x1 = alphanumeric[n1]
@@ -33,4 +31,28 @@ def vigenere():
     print(cipher)
 
 vigenere()
-        
+
+def Feistel():
+    global Ln, Rn
+    split = []
+    Ln = []
+    Rn = []
+
+    pw = str(input('password? (Alphanumeric): '))
+    characters = list(pw)
+    pwlen = int(len(pw))
+    
+    for i in range(pwlen):
+        n1 = characters[i]
+        x1 = alphanumeric[n1]
+        split.append(x1)
+
+    splitlen = len(split)
+    midint = splitlen // 2
+
+    left = slice(split[:midint])
+    right = slice(split[midint:])
+    ln.append(left)
+    Rn.append(right)
+
+    return Rn
