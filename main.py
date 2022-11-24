@@ -30,7 +30,8 @@ def vigenere():
         i =+ 1
 
     cipher = ''.join(cipherchars)
-    print(cipher)
+    print('Cipher: ' + cipher)
+    print ('Key: ' + keystring)
 
 vigenere()
         
