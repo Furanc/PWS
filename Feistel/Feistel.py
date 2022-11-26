@@ -16,23 +16,24 @@ def pwgen():
 
 def keygen():
     global key
-    key = ''.join(secrets.choice(alphabet) for i in range(16))
+    key = ''.join(secrets.choice(alphabet) for i in range(8))
     keylist = list(key)
+    #print(key)
     return keylist
 
-def encrypt():
-    global pwi, keyi, pwlen
-    pwi, keyi, cipher = pwgen(), keygen(), []
-    pwlen = len(pwi)
-    for i in range(pwlen):
-        ciphernum = (int((alphanumeric[keyi[i]] + alphanumeric[pwi[i]])) % 62)
-        cipherchar = inv_alphanumeric[ciphernum]
-        cipher.append(str(cipherchar))
+def vig_encrypt():
+    global keyi, pwlen
+    keyi, cipher, cipherlist = keygen(), [], []
+    for i in range(8):
+        ciphernum = (int((alphanumeric[keyi[i]] + alphanumeric[Rn[i]])) % 62)
+        #cipherchar = inv_alphanumeric[ciphernum]
+        cipherlist.append(str(ciphernum))
+        #cipher = ''.join(cipherlist)
         i + 1
 
-    return cipher
+    return cipherlist
 
-def decrypt(): 
+def vig_decrypt(): 
     plaintext = []
     for i in range(pwlen):
         pwnum = (int((alphanumeric[encrypted[i]] - alphanumeric[keyi[i]])) % 62)
@@ -42,17 +43,39 @@ def decrypt():
     
     return ''.join(plaintext)
 
-if __name__ == '__main__':
-    encrypted = encrypt()
-    decrypted = decrypt()
-    print(f'''Password: {password}, Key: {key}, Cipher: {''.join(encrypted)}, Decrypted: {decrypted}''')
-    with open('dataset.txt','a') as text_file:
-        text_file.write(f'''{password}, {key}, {''.join(encrypted)}, {decrypted} \n''')
-        text_file.close()
-
-def Feistel():
-    print (password[0:8], password[8:16])
-    L = password
+def feistel():
+    global Rn, pwi
+    pwi = pwgen()
+    Ln, Rn, LnList, XorList, Rnlist = pwi[0:8], pwi[8:16], [], [], []
+    
+    for n in range(3):
+        Rn = vig_encrypt()
+        for i in range(8):
+            LnList.append(str(alphanumeric[Ln[i]]))
+        for i in range(8):
+            Ln = int(LnList[i]) ^ int(Rn[i])
+            Ln = inv_alphanumeric[Ln]
+            XorList.append(Ln)
+            print(i)
+        Xor = ''.join(XorList)
+        Ln = Xor
+        Rn = Ln
+        n =+ 1
+    
+    Rn = vig_encrypt()
+    for i in range(8):
+        Rnstring = inv_alphanumeric[Rn[i]]
+        Rnlist.append(Rnstring)
+    Rn = ''.join(Rnlist)
+    
+    print(Rn+Ln)
     
 
-Feistel()
+if __name__ == '__main__':
+    #encrypted = vig_encrypt()
+    #decrypted = vig_decrypt()
+    #print(f'''Password: {password}, Key: {key}, Cipher: {''.join(encrypted)}, Decrypted: {decrypted}''')
+    #with open('dataset.txt','a') as text_file:
+        #text_file.write(f'''{password}, {key}, {''.join(encrypted)}, {decrypted} \n''')
+        #text_file.close()
+    feistel()

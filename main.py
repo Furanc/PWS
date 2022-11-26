@@ -10,9 +10,6 @@ inv_alphanumeric, alphabet = {v: k for k, v in alphanumeric.items()}, string.asc
 def pwgen():
     global password
     password = ''.join(secrets.choice(alphabet) for i in range(16))
-    with open('dataset.txt','a') as text_file:
-        text_file.write(str(password) + '\n')
-        text_file.close()
     passlist = list(password)
     return passlist
 
@@ -49,3 +46,6 @@ if __name__ == '__main__':
     encrypted = encrypt()
     decrypted = decrypt()
     print(f'''Password: {password}, Key: {key}, Cipher: {''.join(encrypted)}, Decrypted: {decrypted}''')
+    with open('dataset.txt','a') as text_file:
+        text_file.write(f'''{password}, {key}, {''.join(encrypted)}, {decrypted} \n''')
+        text_file.close()
