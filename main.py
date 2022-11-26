@@ -24,7 +24,7 @@ def keygen():
     return keylist
 
 def encrypt():
-    global pwi, keyi, pwlen, cipher
+    global pwi, keyi, pwlen
     pwi, keyi, cipher = pwgen(), keygen(), []
     pwlen = len(pwi)
     for i in range(pwlen):
@@ -36,9 +36,9 @@ def encrypt():
     return cipher
 
 def decrypt(): 
-    listc, plaintext = encrypt(), []
+    plaintext = []
     for i in range(pwlen):
-        pwnum = (int((alphanumeric[listc[i]] - alphanumeric[keyi[i]])) % 62)
+        pwnum = (int((alphanumeric[encrypted[i]] - alphanumeric[keyi[i]])) % 62)
         pwchar = inv_alphanumeric[pwnum]
         plaintext.append(str(pwchar))
         i + 1
@@ -46,5 +46,6 @@ def decrypt():
     return ''.join(plaintext)
 
 if __name__ == '__main__':
+    encrypted = encrypt()
     decrypted = decrypt()
-    print(f'''Password: {password}, Key: {key}, Cipher: {''.join(cipher)}, Decrypted: {decrypted}''')
+    print(f'''Password: {password}, Key: {key}, Cipher: {''.join(encrypted)}, Decrypted: {decrypted}''')
