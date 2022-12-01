@@ -54,7 +54,6 @@ def enc_feistel():
 
     for n in range(4):
         Fkey = ''.join(secrets.choice(alphabet) for i in range(len(Rn)))
-        print(Fkey)
         keys.append(Fkey)
         Fkey = list(Fkey)
         
@@ -79,7 +78,6 @@ def dec_feistel():
 
     for n in range(4):
         Fkey = keys[n]
-        print(Fkey)
         Fkey = list(Fkey)
         Fn = []
         Rn = list(Rn)
@@ -96,7 +94,7 @@ def dec_feistel():
     return list(Ln + Rn)
 
 if __name__ == '__main__':
-    pwlen = int(input('How many characters is your password?'))
+    pwlen = int(16)
     # decrypted = vig_decrypt()
     # print(f'''Password: {password}, Key: {key}, Cipher: {''.join(vig)}, Decrypted: {decrypted}''')
     # with open('dataset.txt','a') as text_file:

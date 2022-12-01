@@ -1,5 +1,6 @@
 import secrets
 import string
+import csv
 
 alphabet = string.ascii_letters + string.digits
 
@@ -18,7 +19,7 @@ def keygen():
     return keylist
 
 def vig_encrypt():
-    global pwi, keyi, pwlen
+    global pwi, keyi, pwlen, vigcipher
     pwi, keyi, vigcipher = pwgen(), keygen(), []
     pwlen = len(pwi)
     for i in range(pwlen):
@@ -29,17 +30,18 @@ def vig_encrypt():
     return vigcipher
 
 def vig_decrypt(): 
+    global plaintextword
     plaintext = []
     local = dec_feistel()
     for i in range(pwlen):
         pwchar = chr((ord(local[i]) - ord(keyi[i]) + 256) % 256)
         plaintext.append(str(pwchar))
         i + 1
-    
-    return ''.join(plaintext)
+    plaintextword = ''.join(plaintext)
+    return plaintextword
 
 def enc_feistel():
-    global keys, vig, splice
+    global keys, vig, splice, FeistelCipher
     vig, splice = vig_encrypt(), pwlen//2
     Fkey, Ln, Rn, keys = [], vig[:pwlen//2], vig[pwlen//2:], []
     print(f'''Vigenere Cipher: {''.join(vig)}''')
@@ -60,11 +62,13 @@ def enc_feistel():
         Fn = ''.join(Fn)
         Rn = Ln
         Ln = Fn   
+    FeistelCipher = Rn + Ln
     print(f'Feistel Cipher: {Rn + Ln}')
     return Rn, Ln
 
 
 def dec_feistel():
+    global DecFeistel
     Rn, Ln = enc_feistel()
 
     for n in range(4):
@@ -81,6 +85,7 @@ def dec_feistel():
         Rn = Ln
         Ln = Fn
     
+    DecFeistel = Ln + Rn
     print(f'Decrypted Feistel Cipher: {Ln + Rn}')
     return list(Ln + Rn)
 
@@ -91,5 +96,9 @@ if __name__ == '__main__':
     # with open('dataset.txt','a') as text_file:
     #     text_file.write(f'''{password}, {key}, {''.join(vig)}, {decrypted} \n''')
     #     text_file.close()
-    for n in range(1):
+    for n in range(48):
         print(f'Your password was: {vig_decrypt()}')
+        data = [password , key , ''.join(vigcipher), FeistelCipher, DecFeistel, plaintextword]
+        with open('dataset.csv', 'a', encoding="utf-8") as file:
+            datawriter = csv.writer(file)
+            datawriter.writerow(data)
