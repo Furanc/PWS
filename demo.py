@@ -87,7 +87,7 @@ def dec_feistel():
         Rn = Ln
         Ln = Fn
        
-    print(f'Decrypted Feistel cipher: {Ln + Rn}')
+    print(f'Ontcijferde Feistel cipher: {Ln + Rn}')
     return list(Ln + Rn)
 
 if __name__ == '__main__':
@@ -97,4 +97,4 @@ if __name__ == '__main__':
     # with open('dataset.txt','a') as text_file:
     #     text_file.write(f'''{password}, {key}, {''.join(vig)}, {decrypted} \n''')
     #     text_file.close()
-    print(f'Your password was: {vig_decrypt()}')
+    print(f'Uw wachtwoord was: {vig_decrypt()}')
