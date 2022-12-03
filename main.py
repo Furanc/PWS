@@ -90,9 +90,5 @@ def dec_feistel():
 
 if __name__ == '__main__':
     pwlen = int(input('How many characters is your password?'))
-    # decrypted = vig_decrypt()
-    # print(f'''Password: {password}, Key: {key}, Cipher: {''.join(vig)}, Decrypted: {decrypted}''')
-    # with open('dataset.txt','a') as text_file:
-    #     text_file.write(f'''{password}, {key}, {''.join(vig)}, {decrypted} \n''')
-    #     text_file.close()
+
     print(f'Your password was: {vig_decrypt()}')
