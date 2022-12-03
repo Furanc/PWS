@@ -1,6 +1,4 @@
-#import math
-#import numpy as np
-#import os
+
 import secrets
 import string
 
@@ -20,7 +18,7 @@ def keygen():
     keylist = list(key)
     return keylist
 
-def encrypt():
+def vig_encrypt():
     global pwi, keyi, pwlen
     pwi, keyi, cipher = pwgen(), keygen(), []
     pwlen = len(pwi)
@@ -32,7 +30,7 @@ def encrypt():
 
     return cipher
 
-def decrypt(): 
+def vig_decrypt(): 
     plaintext = []
     for i in range(pwlen):
         pwnum = (int((alphanumeric[encrypted[i]] - alphanumeric[keyi[i]])) % 62)
@@ -43,8 +41,8 @@ def decrypt():
     return ''.join(plaintext)
 
 if __name__ == '__main__':
-    encrypted = encrypt()
-    decrypted = decrypt()
+    encrypted = vig_encrypt()
+    decrypted = vig_decrypt()
     print(f'''Password: {password}, Key: {key}, Cipher: {''.join(encrypted)}, Decrypted: {decrypted}''')
     with open('dataset.txt','a') as text_file:
         text_file.write(f'''{password}, {key}, {''.join(encrypted)}, {decrypted} \n''')

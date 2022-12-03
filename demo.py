@@ -1,15 +1,15 @@
+#import math
+#import numpy as np
+#import os
 import secrets
 import string
-import csv
 
-alphabet = string.ascii_letters + string.digits
 
-def pwgen():
-    global password
-    password = ''.join(secrets.choice(alphabet) for i in range(pwlen))
-    passlist = list(password)
-    print(f'Your password is: {password}')
-    return passlist
+alphanumeric = {'a': 0, 'b': 1, 'c': 2, 'd': 3, 'e': 4, 'f': 5, 'g': 6, 'h': 7, 'i': 8, 'j': 9, 'k': 10, 'l': 11, 'm': 12, 'n': 13, 'o': 14, 'p': 15, 'q': 16, 'r': 17, 's': 18, 't': 19, 'u': 20, 'v': 21, 'w': 22, 'x': 23, 'y': 24, 'z': 25, 'A': 26, 'B': 27, 'C': 28, 'D': 29, 'E': 30, 'F': 31, 'G': 32, 'H': 33, 'I': 34, 'J': 35, 'K': 36, 'L': 37, 'M': 38, 'N': 39, 'O': 40, 'P': 41, 'Q': 42, 'R': 43, 'S': 44, 'T': 45, 'U': 46, 'V': 47, 'W': 48, 'X': 49, 'Y': 50, 'Z': 51, '0': 52, '1': 53, '2': 54, '3': 55, '4': 56, '5': 57, '6': 58, '7': 59, '8': 60, '9': 61}
+inv_alphanumeric, alphabet = {v: k for k, v in alphanumeric.items()}, string.ascii_letters + string.digits
+
+pwgen = input('Voer uw wachtwoord in: ')
+   
 
 
 def keygen():
@@ -19,29 +19,30 @@ def keygen():
     return keylist
 
 def vig_encrypt():
-    global pwi, keyi, pwlen, vigcipher
-    pwi, keyi, vigcipher = pwgen(), keygen(), []
+    global pwi, keyi, pwlen
+    pwi, keyi, vigcipher = pwgen, keygen(), []
     pwlen = len(pwi)
     for i in range(pwlen):
-        cipherchar = chr(ord(keyi[i]) + ord(pwi[i]) % 256)
+        ciphernum = (int((alphanumeric[keyi[i]] + alphanumeric[pwi[i]])) % 62)
+        cipherchar = inv_alphanumeric[ciphernum]
         vigcipher.append(cipherchar)
         i + 1
 
     return vigcipher
 
 def vig_decrypt(): 
-    global plaintextword
     plaintext = []
     local = dec_feistel()
     for i in range(pwlen):
-        pwchar = chr((ord(local[i]) - ord(keyi[i]) + 256) % 256)
+        pwnum = (int((alphanumeric[local[i]] - alphanumeric[keyi[i]])) % 62)
+        pwchar = inv_alphanumeric[pwnum]
         plaintext.append(str(pwchar))
         i + 1
-    plaintextword = ''.join(plaintext)
-    return plaintextword
+    
+    return ''.join(plaintext)
 
 def enc_feistel():
-    global keys, vig, splice, FeistelCipher
+    global keys, vig, splice
     vig, splice = vig_encrypt(), pwlen//2
     Fkey, Ln, Rn, keys = [], vig[:pwlen//2], vig[pwlen//2:], []
     print(f'''Vigenere Cipher: {''.join(vig)}''')
@@ -62,17 +63,18 @@ def enc_feistel():
         Fn = ''.join(Fn)
         Rn = Ln
         Ln = Fn   
-    FeistelCipher = Rn + Ln
     print(f'Feistel Cipher: {Rn + Ln}')
-    return Rn, Ln
+    return Rn + Ln
 
 
 def dec_feistel():
-    global DecFeistel
-    Rn, Ln = enc_feistel()
+    temp = enc_feistel()
+    temp = list(temp)
+    Rn, Ln = temp[:pwlen//2], temp[pwlen//2:] 
 
     for n in range(4):
         Fkey = keys[n]
+        print(Fkey)
         Fkey = list(Fkey)
         Fn = []
         Rn = list(Rn)
@@ -84,9 +86,8 @@ def dec_feistel():
         Fn = ''.join(Fn)
         Rn = Ln
         Ln = Fn
-    
-    DecFeistel = Ln + Rn
-    print(f'Decrypted Feistel Cipher: {Ln + Rn}')
+       
+    print(f'Ontcijferde Feistel cipher: {Ln + Rn}')
     return list(Ln + Rn)
 
 if __name__ == '__main__':
@@ -96,9 +97,4 @@ if __name__ == '__main__':
     # with open('dataset.txt','a') as text_file:
     #     text_file.write(f'''{password}, {key}, {''.join(vig)}, {decrypted} \n''')
     #     text_file.close()
-    for n in range(48):
-        print(f'Your password was: {vig_decrypt()}')
-        data = [password , key , ''.join(vigcipher), FeistelCipher, DecFeistel, plaintextword]
-        with open('dataset.csv', 'a', encoding="utf-8") as file:
-            datawriter = csv.writer(file)
-            datawriter.writerow(data)
+    print(f'Uw wachtwoord was: {vig_decrypt()}')
