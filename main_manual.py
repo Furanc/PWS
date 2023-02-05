@@ -4,14 +4,6 @@ import csv
 
 alphabet = string.ascii_letters + string.digits
 
-def pwgen():
-    global password
-    password = ''.join(secrets.choice(alphabet) for i in range(pwlen))
-    passlist = list(password)
-    print(f'Your password is: {password}')
-    return passlist
-
-
 def keygen():
     global key
     key = ''.join(secrets.choice(alphabet) for i in range(pwlen))
@@ -19,11 +11,12 @@ def keygen():
     return keylist
 
 def vig_encrypt():
-    global pwi, keyi, pwlen, vigcipher
-    pwi, keyi, vigcipher = pwgen(), keygen(), []
-    pwlen = len(pwi)
+    global password, keyi, pwlen, vigcipher
+    password = input('What is your password?')
+    pwlen = len(password)
+    keyi, vigcipher = keygen(), []
     for i in range(pwlen):
-        cipherchar = chr(ord(keyi[i]) + ord(pwi[i]) % 256)
+        cipherchar = chr(ord(keyi[i]) + ord(password[i]) % 256)
         vigcipher.append(cipherchar)
         i + 1
 
@@ -91,8 +84,7 @@ def dec_feistel():
     return list(Ln + Rn)
 
 if __name__ == '__main__':
-    pwlen = int(input('How many characters is your password?'))
-    for n in range(100):
+    for n in range(1):
         print(f'Your password was: {vig_decrypt()}')
         data = [password, key, keysprint, ''.join(vigcipher), FeistelCipher, DecFeistel, plaintextword]
         with open('encrypt.csv', 'a', encoding="utf-8") as file:
