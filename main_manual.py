@@ -13,6 +13,7 @@ def keygen():
 def vig_encrypt():
     global password, keyi, pwlen, vigcipher
     password = input('Voer uw wachtwoord in: ')
+    print('\n')
     pwlen = len(password)
     keyi, vigcipher = keygen(), []
     for i in range(pwlen):
@@ -56,7 +57,7 @@ def enc_feistel():
         Rn = Ln
         Ln = Fn   
     FeistelCipher = Rn + Ln
-    print(f'Feistel Cipher: {Rn + Ln}')
+    print(f'Feistel/Eind Cipher: {Rn + Ln}')
     keysprint = ''.join(keys)
     return Rn, Ln
 
@@ -84,4 +85,14 @@ def dec_feistel():
     return list(Ln + Rn)
 
 if __name__ == '__main__':
-    print(f'Uw wachtwoord was: {vig_decrypt()}')
+    for n in range(1):
+        print(f'Uw wachtwoord was: {vig_decrypt()} \n')
+        print('Wachtwoord:', password)
+        print('Key:', keysprint)
+        print(f'Cipher:', FeistelCipher,'\n')
+        data = [password, key, keysprint, ''.join(vigcipher), FeistelCipher, DecFeistel, plaintextword]
+        with open('encrypt.csv', 'a', encoding="utf-8") as file:
+            datawriter = csv.writer(file)
+            datawriter.writerow(data)
+
+input('Druk op een knop om af te sluiten')
